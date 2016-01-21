@@ -83,6 +83,11 @@ class User implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Cursus", mappedBy="cursus")
+     */
+    private $workshops;
+
 
     public function __construct()
     {
@@ -429,5 +434,39 @@ class User implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Add workshop
+     *
+     * @param \AppBundle\Entity\Cursus $workshop
+     *
+     * @return User
+     */
+    public function addWorkshop(\AppBundle\Entity\Cursus $workshop)
+    {
+        $this->workshops[] = $workshop;
+
+        return $this;
+    }
+
+    /**
+     * Remove workshop
+     *
+     * @param \AppBundle\Entity\Cursus $workshop
+     */
+    public function removeWorkshop(\AppBundle\Entity\Cursus $workshop)
+    {
+        $this->workshops->removeElement($workshop);
+    }
+
+    /**
+     * Get workshops
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWorkshops()
+    {
+        return $this->workshops;
     }
 }

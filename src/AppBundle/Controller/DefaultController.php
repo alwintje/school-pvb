@@ -15,8 +15,24 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
 
+        $em = $this->getDoctrine()->getManager();
+        $cursussen = $em->getRepository("AppBundle:Cursus")->findAll();
+
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+            'cursussen' => $cursussen
+        ]);
+    }
+    /**
+     * @Route("/cursist", name="cursist")
+     */
+    public function cursistAction(Request $request)
+    {
+        // replace this example code with whatever you need
+        $em = $this->getDoctrine()->getManager();
+        $cursussen = $em->getRepository("AppBundle:Cursus")->findAll();
+
+        return $this->render('default/cursist.html.twig', [
+            'cursussen' => $cursussen
         ]);
     }
 }
