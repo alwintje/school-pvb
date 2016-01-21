@@ -1,0 +1,18 @@
+{% extends 'default/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/AppBundle/css/login-register.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="login">
+    <div class="heading">
+        <h2>Registreer</h2>
+    {{ response }}
+    {{ form_start(form, {'attr':{'class': 'form-group'} } ) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+        {#input-group input-group-lg#}
+    </div>
+</div>
+{% endblock %}
