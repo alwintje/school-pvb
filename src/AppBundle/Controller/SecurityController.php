@@ -82,7 +82,7 @@ class SecurityController extends Controller
             ->add('woonplaats', TextType::class, array('label' => 'Woonplaats','attr'=> array('class'=>'form-control')))
             ->add('telefoon', TextType::class, array('label' => 'Telefoon','attr'=> array('class'=>'form-control')))
             ->add('password', RepeatedType::class, array('first_name'  => 'Wachtwoord', 'second_name' => 'Bevestig', 'type' => PasswordType::class, 'options'=>array('attr'=> array('class'=>'form-control'))))
-            ->add('save', SubmitType::class, array('label' => 'Register','attr'=> array('class'=>'btn btn-default')))
+            ->add('save', SubmitType::class, array('label' => 'Register','attr'=> array('class'=>'float')))
             ->getForm();
         return $form;
     }
@@ -91,6 +91,7 @@ class SecurityController extends Controller
         $form->handleRequest($request);
         $response = "";
         if ($form->isValid()) {
+
             $user = new User();
             $user->setUsername($form->get('username')->getViewData());
             $user->setEmail($form->get('email')->getViewData());
@@ -110,6 +111,12 @@ class SecurityController extends Controller
             $user->setIsActive(true);
 
             $em = $this->getDoctrine()->getManager();
+            $byUser = $em->getRepository("UserBundle:User")->findOneBy(['username'=>$form->get('username')->getViewData()]);
+            $byMail = $em->getRepository("UserBundle:User")->findOneBy(['email'=>$form->get('email')->getViewData()]);
+            if(count($byUser) > 0 || count($byMail) > 0){
+                return "Gebruikersnaam of email bestaat al.";
+            }
+
 //            if($this->admin) {
 //                $role = $em->getRepository('UserBundle:Role')
 //                    ->findOneBy(array(
