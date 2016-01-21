@@ -42,15 +42,23 @@ class Cursus
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="SoortCursus", inversedBy="cursus")
-     *
+     * @ORM\ManyToOne(targetEntity="SoortCursus", inversedBy="cursus")
      */
     private $soortCursus;
+
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\UserBundle\Entity\User", mappedBy="Cursus")
+     */
+    private $cursisten;
+
 
 
     public function __construct()
     {
         $this->soortCursus = new ArrayCollection();
+        $this->cursisten = new ArrayCollection();
     }
 
     /**
@@ -110,11 +118,6 @@ class Cursus
     {
         return $this->eindDatum;
     }
-
-    /**
-     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\User", mappedBy="SoortCursus")
-     */
-    private $cursisten;
 
 
     /**
@@ -207,5 +210,19 @@ class Cursus
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set soortCursus
+     *
+     * @param \AppBundle\Entity\SoortCursus $soortCursus
+     *
+     * @return Cursus
+     */
+    public function setSoortCursus(\AppBundle\Entity\SoortCursus $soortCursus = null)
+    {
+        $this->soortCursus = $soortCursus;
+
+        return $this;
     }
 }

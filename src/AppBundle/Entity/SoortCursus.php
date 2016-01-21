@@ -33,6 +33,12 @@ class SoortCursus
      */
     private $prijs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Cursus", mappedBy="SoortCursus")
+     *
+     */
+    private $cursus;
+
 
     public function __construct()
     {
@@ -96,5 +102,53 @@ class SoortCursus
     public function getPrijs()
     {
         return $this->prijs;
+    }
+
+    /**
+     * Set cursus
+     *
+     * @param \AppBundle\Entity\Cursus $cursus
+     *
+     * @return SoortCursus
+     */
+    public function setCursus(\AppBundle\Entity\Cursus $cursus = null)
+    {
+        $this->cursus = $cursus;
+
+        return $this;
+    }
+
+    /**
+     * Get cursus
+     *
+     * @return \AppBundle\Entity\Cursus
+     */
+    public function getCursus()
+    {
+        return $this->cursus;
+    }
+
+    /**
+     * Add cursus
+     *
+     * @param \AppBundle\Entity\Cursus $cursus
+     *
+     * @return SoortCursus
+     */
+    public function addCursus(\AppBundle\Entity\Cursus $cursus)
+    {
+        $this->cursus[] = $cursus;
+
+        return $this;
+    }
+
+    /**
+     * Remove cursus
+     *
+     * @param \AppBundle\Entity\Cursus $cursus
+     */
+    public function removeCursus(\AppBundle\Entity\Cursus $cursus)
+    {
+        $this->cursus->removeElement($cursus);
     }
 }

@@ -84,7 +84,7 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Cursus", mappedBy="cursus")
+     * @ORM\ManyToMany(targetEntity="\AppBundle\Entity\Cursus", inversedBy="users")
      */
     private $workshops;
 
@@ -93,6 +93,7 @@ class User implements UserInterface, \Serializable
     {
         $this->isActive = true;
         $this->roles = new ArrayCollection();
+        $this->workshops = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
@@ -140,6 +141,20 @@ class User implements UserInterface, \Serializable
         //return array('ROLE_USER');
         foreach($this->roles->toArray() as $val){
             if($val == $role){
+                return true;
+            }
+        }
+        return false;
+        //return $this->roles->toArray();
+    }
+    /**
+     * @inheritDoc
+     */
+    public function hasWorkshop($workshop)
+    {
+        //return array('ROLE_USER');
+        foreach($this->workshops->toArray() as $val){
+            if($val == $workshop){
                 return true;
             }
         }

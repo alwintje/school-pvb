@@ -135,20 +135,8 @@ app.request.attributes.get('_route_params')) %}
 <div class="slide story" id="portfolio" data-slide="2">
     <div class="row">
         {% for cursus in cursussen %}
-            <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ cursus.image }}"><img class="thumb" src="{{ cursus.image }}" alt=""></a></div>
+            <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="iframe" href="/cursist/fancybox/join/{{ cursus.id }}"><img class="thumb" src="{{ cursus.image }}" alt=""></a></div>
         {% endfor %}
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p01-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p01-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p02-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p02-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p09-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p09-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p010-large.jp') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p10-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p05-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p05-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p06-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p06-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p07-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p07-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p08-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p08-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p03-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p03-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p04-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p04-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p11-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p11-small.jpg') }}" alt=""></a></div>
-        <div class="col-12 col-sm-6 col-lg-2"><a data-fancybox-group="portfolio" class="fancybox" href="{{ asset('bundles/AppBundle/images/portfolio/p12-large.jpg') }}"><img class="thumb" src="{{ asset('bundles/AppBundle/images/portfolio/p12-small.jpg') }}" alt=""></a></div>
     </div><!-- /row -->
 </div><!-- /slide3 -->
 
@@ -238,6 +226,7 @@ app.request.attributes.get('_route_params')) %}
 <script src="{{ asset('bundles/AppBundle/js/script.js') }}"></script>
 
 <!-- fancybox init -->
+
 <script>
     $(document).ready(function(e) {
         var lis = $('.nav > li');
@@ -250,6 +239,18 @@ app.request.attributes.get('_route_params')) %}
                     locked: false
                 }
             }
+        });
+        $(".iframe").fancybox({
+            padding: 10,
+            type: "iframe",
+            modal: false,
+            helpers: {
+                overlay: {
+                    locked: false
+                }
+            },
+
+            'overlayShow': false
         });
 
     });

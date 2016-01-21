@@ -8,8 +8,11 @@
     {% set sliderCount = 3 %}
 {% block menu %}
 
-    <li data-slide="{{ sliderCount }}" class="col-12 col-sm-2 onPageLink"><a id="menu-link-{{ sliderCount }}" href="#contact" title="Next Section"><span class="icon icon-envelope"></span> <span class="text">CONTACT</span></a></li>
+    {#<li data-slide="{{ sliderCount }}" class="col-12 col-sm-2 onPageLink"><a id="menu-link-{{ sliderCount }}" href="#contact" title="Next Section"><span class="icon icon-envelope"></span> <span class="text">CONTACT</span></a></li>#}
     {#<li class="col-12 col-sm-2"><a href="" title="Login"><span class="icon icon-key"></span> <span class="text">LOGOUT</span></a></li>#}
+    {% if admin == "true" %}
+        <li class="col-12 col-sm-2"><a href="/admin" title="Logout"><span class="icon icon-certificate"></span> <span class="text">ADMIN</span></a></li>
+    {% endif %}
     <li class="col-12 col-sm-2"><a href="/logout" title="Logout"><span class="icon icon-key"></span> <span class="text">LOGOUT</span></a></li>
 {% endblock %}
 

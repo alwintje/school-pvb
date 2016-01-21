@@ -1,0 +1,34 @@
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+app.request.attributes.get('_route_params')) %}
+<!doctype html>
+<html>
+<head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ cursus.SoortCursus.naam }}</h1>
+    <h3>&euro; {{ cursus.SoortCursus.prijs/100 }}</h3>
+    <strong>Begin datum:</strong> {{ cursus.beginDatum|date("d-m-Y") }}<br />
+    <strong>Eind datum</strong>{{ cursus.beginDatum|date("d-m-Y") }}<br />
+    <br />
+    <br />
+    {% if can_join %}
+        <a href="/cursist/fancybox/join/{{ id }}/true">Join!</a>
+    {% elseif can_leave %}
+        <a href="/cursist/fancybox/leave/{{ id }}/true">Leave!</a>
+    {% else %}
+        <a href="/register">Join!</a>
+    {% endif %}
+    <br />
+</body>
+</html>
+

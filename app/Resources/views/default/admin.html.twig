@@ -4,8 +4,18 @@
 
 {% endblock %}
 
-{% block menu %}
+{% block body %}
 
+    <h2>Registreer</h2>
+    <span class="response">{{ response }}</span>
+    {{ form_start(cursusSoortForm, {'attr':{'class': 'form-group'} } ) }}
+    {{ form_widget(cursusSoortForm) }}
+    {{ form_end(cursusSoortForm) }}
+    <br />
+    <br />
+    {{ form_start(cursusForm, {'attr':{'class': 'form-group'} } ) }}
+    {{ form_widget(cursusForm) }}
+    {{ form_end(cursusForm) }}
 {% endblock %}
 
 {% block slides %}
