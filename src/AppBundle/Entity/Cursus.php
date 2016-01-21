@@ -49,7 +49,7 @@ class Cursus
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="\UserBundle\Entity\User", mappedBy="Cursus")
+     * @ORM\ManyToMany(targetEntity="\UserBundle\Entity\User", mappedBy="workshops")
      */
     private $cursisten;
 

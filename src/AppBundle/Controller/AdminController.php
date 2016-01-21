@@ -52,7 +52,7 @@ class AdminController extends Controller
             ->getForm();
 
         $this->response = "";
-
+        $cursussen = $em->getRepository("AppBundle:Cursus")->findBy([],["beginDatum" => "ASC"],10);
 
         if($request !== false){
             if($request->getMethod() == "POST"){
@@ -80,7 +80,8 @@ class AdminController extends Controller
         return $this->render('default/admin.html.twig',[
             'cursusSoortForm' => $cursusSoortForm->createView(),
             'cursusForm' => $cursusForm->createView(),
-            'response' => $this->response
+            'response' => $this->response,
+            'cursussen' => $cursussen
         ]);
     }
 }
