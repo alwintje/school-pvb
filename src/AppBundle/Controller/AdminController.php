@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     private $response = "";
+    private $responseCursusSoort = "";
+    private $responseCursus = "";
     /**
      * @Route("/admin", name="adminpage")
      */
@@ -31,7 +33,7 @@ class AdminController extends Controller
         $cursusSoortForm = $this->createFormBuilder($cursusSoort, array('attr' => array('id' => "form")))
             ->add('naam', TextType::class, array('label' => 'Naam','attr' => array("class" => "form-control")))
 
-            ->add('prijs', IntegerType::class, array('label' => 'Prijs','attr' => array("class" => "form-control")))
+            ->add('prijs', IntegerType::class, array('label' => 'Prijs (in centen!)','attr' => array("class" => "form-control")))
 
             ->add('save', SubmitType::class, array('label' => 'Toevoegen','attr' => array("class" => "form-control")))
             ->getForm();
@@ -51,7 +53,6 @@ class AdminController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Toevoegen','attr' => array("class" => "form-control")))
             ->getForm();
 
-        $this->response = "";
         $cursussen = $em->getRepository("AppBundle:Cursus")->findBy([],["beginDatum" => "ASC"],10);
 
         if($request !== false){
@@ -63,12 +64,14 @@ class AdminController extends Controller
                     if ($cursusSoortForm->isValid()) {
                         $em->persist($cursusSoort);
                         $em->flush();
+                        $this->responseCursusSoort = "Succesvol toegevoegd!";
                     }
                 }else {
                     $cursusForm->handleRequest($request);
                     if ($cursusForm->isValid()) {
                         $em->persist($cursus);
                         $em->flush();
+                        $this->responseCursus = "Succesvol toegevoegd!";
                     }
                 }
             }
@@ -80,7 +83,8 @@ class AdminController extends Controller
         return $this->render('default/admin.html.twig',[
             'cursusSoortForm' => $cursusSoortForm->createView(),
             'cursusForm' => $cursusForm->createView(),
-            'response' => $this->response,
+            'response_cursus_soort' => $this->responseCursusSoort,
+            'response_cursus' => $this->responseCursus,
             'cursussen' => $cursussen
         ]);
     }

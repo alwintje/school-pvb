@@ -41,13 +41,14 @@
 {% block body %}
 
     <h2>Nieuwe cursus soort</h2>
-    <span class="response">{{ response }}</span>
+    <span class="response">{{ response_cursus_soort }}</span>
     {{ form_start(cursusSoortForm, {'attr':{'class': 'form-group'} } ) }}
     {{ form_widget(cursusSoortForm) }}
     {{ form_end(cursusSoortForm) }}
     <br />
     <br />
     <h2>Nieuwe cursus</h2>
+    <span class="response">{{ response_cursus }}</span>
     {{ form_start(cursusForm, {'attr':{'class': 'form-group'} } ) }}
     {{ form_widget(cursusForm) }}
     {{ form_end(cursusForm) }}
