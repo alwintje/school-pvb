@@ -1,71 +1,71 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <style>
-        .alle_aanmeldingen{
-            position: relative;
-            padding-top: 25px;
-        }
-        .aanmeldingen_title{
-            position: absolute;
-            right: 10px;
-            top: 0;
-
-        }
-        h3{
-            position: relative;
-            margin: 0;
-            cursor: default;
-        }
-        h3 .aanmeldingen{
-            position: absolute;
-            right: 10px;
-        }
-        .users{
-            max-height: 0;
-            overflow: hidden;
-            -webkit-transition: max-height 500ms;
-            -moz-transition: max-height 500ms;
-            -ms-transition: max-height 500ms;
-            -o-transition: max-height 500ms;
-            transition: max-height 500ms;
-            border-bottom: solid 3px #333;
-        }
-        h3:hover + .users{
-            max-height: 500px;
-            overflow: hidden;;
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('bundles/AppBundle/css/admin.css') }}">
 {% endblock %}
 
 {% block body %}
+    <div class="container">
+        <h2>Nieuwe cursus soort</h2>
+        <span class="response">{{ response_cursus_soort }}</span>
+        {{ form_start(cursusSoortForm, {'attr':{'class': 'form-group'} } ) }}
+        {{ form_widget(cursusSoortForm) }}
+        {{ form_end(cursusSoortForm) }}
 
-    <h2>Nieuwe cursus soort</h2>
-    <span class="response">{{ response_cursus_soort }}</span>
-    {{ form_start(cursusSoortForm, {'attr':{'class': 'form-group'} } ) }}
-    {{ form_widget(cursusSoortForm) }}
-    {{ form_end(cursusSoortForm) }}
-    <br />
-    <br />
-    <h2>Nieuwe cursus</h2>
-    <span class="response">{{ response_cursus }}</span>
-    {{ form_start(cursusForm, {'attr':{'class': 'form-group'} } ) }}
-    {{ form_widget(cursusForm) }}
-    {{ form_end(cursusForm) }}
-    <br />
-    <br />
-    <br />
-    <div class="alle_aanmeldingen">
-        <div class="aanmeldingen_title">aanmeldingen</div>
-        {% for cursus in cursussen %}
-            <h3>{{ cursus.soortCursus.naam }} <span class="aanmeldingen">{{ cursus.cursisten|length }}</span></h3>
-            <div class="users">
-                {% for user in cursus.cursisten %}
-                    {{ user.voornaam }}
-                {% endfor %}
-            </div>
-        {% endfor %}
+        <table>
+            <tr>
+                <th>Naam</th>
+                <th>Prijs</th>
+                <th>Verwijder</th>
+            </tr>
+            {% for cs in cursusSoorten %}
+                <tr class="listItem">
+                    <td>{{ cs.naam }}</td>
+                    <td>&euro; {{ cs.prijs/100 }}</td>
+                    <td><a href="/delete/cursusSoort/{{ cs.id }}" class="fa fa-times delete"></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br />
+        <br />
+        <h2>Nieuwe cursus</h2>
+        <span class="response">{{ response_cursus }}</span>
+        {{ form_start(cursusForm, {'attr':{'class': 'form-group'} } ) }}
+        {{ form_widget(cursusForm) }}
+        {{ form_end(cursusForm) }}
+        <table>
+            <tr>
+                <th>Naam</th>
+                <th>Begindatum</th>
+                <th>Einddatum</th>
+                <th>Verwijder</th>
+            </tr>
+            {% for cursus in cursussen %}
+                <tr class="listItem">
+                    <td>{{ cursus.soortCursus.naam }}</td>
+                    <td>{{ cursus.beginDatum|date("d-m-Y") }}</td>
+                    <td>{{ cursus.eindDatum|date("d-m-Y") }}</td>
+                    <td><a href="/delete/cursus/{{ cursus.id }}" class="fa fa-times delete"></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br />
+        <br />
+        <br />
+        <div class="alle_aanmeldingen">
+            <div class="aanmeldingen_title">aanmeldingen</div>
+            {% for cursus in cursussen %}
+                <h3>{{ cursus.soortCursus.naam }} <span class="aanmeldingen">{{ cursus.cursisten|length }}</span></h3>
+                <div class="users">
+                    {% for user in cursus.cursisten %}
+                        {{ user.voornaam }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
 
 
 {% endblock %}

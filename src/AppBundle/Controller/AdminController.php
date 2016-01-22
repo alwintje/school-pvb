@@ -54,6 +54,7 @@ class AdminController extends Controller
             ->getForm();
 
         $cursussen = $em->getRepository("AppBundle:Cursus")->findBy([],["beginDatum" => "ASC"],10);
+        $cursusSoorten = $em->getRepository("AppBundle:SoortCursus")->findBy([],["naam" => "ASC"],10);
 
         if($request !== false){
             if($request->getMethod() == "POST"){
@@ -85,7 +86,34 @@ class AdminController extends Controller
             'cursusForm' => $cursusForm->createView(),
             'response_cursus_soort' => $this->responseCursusSoort,
             'response_cursus' => $this->responseCursus,
-            'cursussen' => $cursussen
+            'cursussen' => $cursussen,
+            'cursusSoorten' => $cursusSoorten,
         ]);
+    }
+    /**
+     * @Route("/delete/{type}/{id}", defaults={"type"="","id"=""}, name="deletePage")
+     */
+    public function deleteAction($type, $id, Request $request)
+    {
+        // replace this example code with whatever you need
+
+        $em = $this->getDoctrine()->getManager();
+
+        $db = "";
+        if($type == "cursusSoort"){
+            $db = "SoortCursus";
+        }
+        if($type == "cursus"){
+            $db = "Cursus";
+        }
+        $entity = $em->getRepository("AppBundle:".$db)->find($id);
+        if(count($entity) != 1){
+            return $this->redirectToRoute('adminpage');
+        }
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirectToRoute('adminpage');
+
     }
 }
