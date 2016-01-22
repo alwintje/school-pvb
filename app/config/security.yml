@@ -45,5 +45,6 @@ security:
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/cursist/fancybox, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/cursist, roles: ROLE_USER }
+        - { path: ^/account, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

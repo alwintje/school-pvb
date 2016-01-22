@@ -1,18 +1,27 @@
 {% extends 'base.html.twig' %}
 
+{% if edit is defined %}
+    {% set page_name = "Wijzig" %}
+    {% set back_url = "/cursist" %}
+{% else %}
+    {% set page_name = "Registreer" %}
+    {% set back_url = "/" %}
+{% endif %}
+
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/AppBundle/css/register.css') }}" />
 {% endblock %}
 
 {% block body %}
 <div class="register">
+    <a class="back" href="{{ back_url }}">back</a>
     <div class="heading">
-        <h2>Registreer</h2>
-        <span class="response">{{ response }}</span>
+        <h2>{{ page_name }}</h2>
+    </div>
         {{ form_start(form, {'attr':{'class': 'form-group'} } ) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
         {#input-group input-group-lg#}
-    </div>
 </div>
 {% endblock %}
