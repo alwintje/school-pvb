@@ -47,4 +47,5 @@ security:
         - { path: ^/cursist, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/delete, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
