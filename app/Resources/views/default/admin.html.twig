@@ -6,8 +6,26 @@
 {% endblock %}
 
 {% block body %}
+    <nav>
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="/cursist"><i class="fa fa-arrow-left"></i> Terug</a>
+                </li>
+                <li>
+                    <a href="#page1">Cursus soorten</a>
+                </li>
+                <li>
+                    <a href="#page2">Cursussen</a>
+                </li>
+                <li>
+                    <a href="#page3">Gebruikers</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
-        <h2>Nieuwe cursus soort</h2>
+        <h2 id="page1">Nieuwe cursus soort</h2>
         <span class="response">{{ response_cursus_soort }}</span>
         {{ form_start(cursusSoortForm, {'attr':{'class': 'form-group'} } ) }}
         {{ form_widget(cursusSoortForm) }}
@@ -17,19 +35,21 @@
             <tr>
                 <th>Naam</th>
                 <th>Prijs</th>
+                <th>Wijzig</th>
                 <th>Verwijder</th>
             </tr>
             {% for cs in cursusSoorten %}
                 <tr class="listItem">
-                    <td>{{ cs.naam }}</td>
+                    <td>
+                        {{ cs.naam }}
+                    </td>
                     <td>&euro; {{ cs.prijs/100 }}</td>
+                    <td><a href="/admin/cursus_soort/{{ cs.id }}#page1" class="fa fa-pencil icon_button"></a></td>
                     <td><a href="/delete/cursusSoort/{{ cs.id }}" class="fa fa-times delete"></a></td>
                 </tr>
             {% endfor %}
         </table>
-        <br />
-        <br />
-        <h2>Nieuwe cursus</h2>
+        <h2 id="page2">Nieuwe cursus</h2>
         <span class="response">{{ response_cursus }}</span>
         {{ form_start(cursusForm, {'attr':{'class': 'form-group'} } ) }}
         {{ form_widget(cursusForm) }}
@@ -39,6 +59,7 @@
                 <th>Naam</th>
                 <th>Begindatum</th>
                 <th>Einddatum</th>
+                <th>Wijzig</th>
                 <th>Verwijder</th>
             </tr>
             {% for cursus in cursussen %}
@@ -46,13 +67,11 @@
                     <td>{{ cursus.soortCursus.naam }}</td>
                     <td>{{ cursus.beginDatum|date("d-m-Y") }}</td>
                     <td>{{ cursus.eindDatum|date("d-m-Y") }}</td>
+                    <td><a href="/admin/cursus/{{ cursus.id }}#page2" class="fa fa-pencil icon_button"></a></td>
                     <td><a href="/delete/cursus/{{ cursus.id }}" class="fa fa-times delete"></a></td>
                 </tr>
             {% endfor %}
         </table>
-        <br />
-        <br />
-        <br />
         <div class="alle_aanmeldingen">
             <div class="aanmeldingen_title">aanmeldingen</div>
             {% for cursus in cursussen %}
@@ -64,8 +83,42 @@
                 </div>
             {% endfor %}
         </div>
+        <h2 id="page3">Gebruikers</h2>
+        <table>
+            <tr>
+                <th>Naam</th>
+                <th>Achternaam</th>
+                <th>Admin</th>
+                <th>Actief</th>
+            </tr>
+            {% for user in users %}
+                {% if user != me %}
+                    <tr class="listItem">
+                        <td>{{ user.voornaam }}</td>
+                        <td>{{ user.achternaam }}</td>
+                        <td>
+                            <a href="/admin/{{ user.id }}/role" >
+                                {% for role in user.roles %}
+                                    {{ role.name }}
+                                {% endfor %}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/admin/{{ user.id }}/active" >
+                                {{ user.isActive ? 'Ja':'Nee' }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
     </div>
-
+    <div class="footer-space"></div>
+    <footer>
+        <div class="container">
+            &copy; Alwin Kroesen
+        </div>
+    </footer>
 
 
 {% endblock %}

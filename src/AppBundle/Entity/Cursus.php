@@ -36,7 +36,7 @@ class Cursus
     private $eindDatum;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255)
      */
     private $image;
 

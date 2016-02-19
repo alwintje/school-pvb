@@ -5,6 +5,7 @@
     {% set back_url = "/cursist" %}
 {% else %}
     {% set page_name = "Registreer" %}
+    {#{% set back_url = "javascript:window.history.back();" %}#}
     {% set back_url = "/" %}
 {% endif %}
 
@@ -18,6 +19,7 @@
     <a class="back" href="{{ back_url }}">back</a>
     <div class="heading">
         <h2>{{ page_name }}</h2>
+        <div class="response">{{ response }}</div>
     </div>
         {{ form_start(form, {'attr':{'class': 'form-group'} } ) }}
         {{ form_widget(form) }}

@@ -27,7 +27,7 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login_route")
      */
-    public function loginAction(Request $request)
+    public function loginAction(Request $request) // Login page
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -50,14 +50,14 @@ class SecurityController extends Controller
     /**
      * @Route("/login_check", name="login_check")
      */
-    public function loginCheckAction()
+    public function loginCheckAction() // Empty function for login check (Symfony does the check)
     {
     }
 
     /**
      * @Route("/register", name="registerPage")
      */
-    public function registerAction(Request $request){
+    public function registerAction(Request $request){ // Register page
         $form = $this->createRegisterForm();
         $response = $this->handleTheRequest($form, $request);
 
@@ -70,6 +70,7 @@ class SecurityController extends Controller
         );
     }
 
+    // Create register form
     private function createRegisterForm(){
         $user = new User();
         $form = $this->createFormBuilder($user)
@@ -84,8 +85,10 @@ class SecurityController extends Controller
             ->add('password', RepeatedType::class, array('first_name'  => 'Wachtwoord', 'second_name' => 'Bevestig', 'type' => PasswordType::class, 'options'=>array('attr'=> array('class'=>'form-control'))))
             ->add('save', SubmitType::class, array('label' => 'Register','attr'=> array('class'=>'float')))
             ->getForm();
+
         return $form;
     }
+    // Handle the register form and return a response
     private function handleTheRequest($form,$request){
 
         $form->handleRequest($request);

@@ -18,9 +18,8 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request) // Home page
     {
-        // replace this example code with whatever you need
 
         $em = $this->getDoctrine()->getManager();
         $cursussen = $em->getRepository("AppBundle:Cursus")->findAll();
@@ -32,9 +31,12 @@ class DefaultController extends Controller
     /**
      * @Route("/cursist", name="cursist")
      */
-    public function cursistAction(Request $request)
+    public function cursistAction(Request $request) // Home page when cursist is logged in
     {
-        // replace this example code with whatever you need
+        // If the user is not active anymore
+        if(!$this->getUser()->getIsActive()){
+            return $this->redirectToRoute('logout');
+        }
         $em = $this->getDoctrine()->getManager();
         $cursussen = $em->getRepository("AppBundle:Cursus")->findAll();
         $role = $em->getRepository("UserBundle:Role")->findOneBy(['role'=>'ROLE_ADMIN']);
@@ -47,34 +49,40 @@ class DefaultController extends Controller
     /**
      * @Route("/cursist/fancybox/{joinOrLeave}/{id}/{join}", defaults={"joinOrLeave"="join","id"="","join"="false"}, name="joinCursus")
      */
-    public function joinCursusAction($joinOrLeave,$id,$join, Request $request)
+    public function joinCursusAction($joinOrLeave,$id,$join, Request $request) // Fancybox page for joining/leaving a cursus
     {
-        // replace this example code with whatever you need
+        // get cursus
         $em = $this->getDoctrine()->getManager();
         $cursus = $em->getRepository("AppBundle:Cursus")->find($id);
+
+        //set default values
         $canJoin = false;
         $canLeave = false;
+
+        // Check if is logged in
         if($this->getUser() != null){
 
             if($join == "true"){
 //                $cursus = new Cursus();
                 $user = new User();
                 if($joinOrLeave == "join"){
-                    $this->getUser()->addWorkshop($cursus);
+                    $this->getUser()->addWorkshop($cursus); // Join cursus
                 }else{
 //                    $cursus->removeCursisten($this->getUser());
-                    $this->getUser()->removeWorkshop($cursus);
+                    $this->getUser()->removeWorkshop($cursus); // Leave cursus
                 }
+                // save
                 $em->persist($cursus);
                 $em->flush();
             }
+            // Button for joining or leaving the cursus
             if(!$this->getUser()->hasWorkshop($cursus)){
                 $canJoin = true;
             }else{
                 $canLeave = true;
             }
         }
-
+        // Render view
         return $this->render('default/join.html.twig', [
             'cursus' => $cursus,
             'id' => $id,
@@ -86,15 +94,9 @@ class DefaultController extends Controller
     /**
      * @Route("/account/edit", name="account")
      */
-    public function accountAction(Request $request)
+    public function accountAction(Request $request) // Edit account
     {
-        // replace this example code with whatever you need
-//        $em = $this->getDoctrine()->getManager();
-//        if($this->getUser() == null){
-//
-//
-//            $user = new User();
-//        }
+        // Create form for editing user
         $form = $this->createFormBuilder($this->getUser())
             ->add('username', TextType::class, array('label' => 'Gebruikersnaam','attr'=> array('class'=>'form-control')))
             ->add('email', EmailType::class, array('label' => 'E-mail','attr'=> array('class'=>'form-control')))
@@ -106,19 +108,42 @@ class DefaultController extends Controller
             ->add('telefoon', TextType::class, array('label' => 'Telefoon','attr'=> array('class'=>'form-control')))
             ->add('save', SubmitType::class, array('label' => 'Wijzig','attr'=> array('class'=>'float')))
             ->getForm();
+        // Handle request
         $response = $this->handleTheRequest($form, $request);
+
+        // Render view
         return $this->render('security/register.html.twig', [
                 'form' => $form->createView(),
                 'response' => $response,
                 'edit' => true
             ]);
     }
+
+    // Handle edit account form and return response
     private function handleTheRequest($form,$request){
 
+        $em = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
         $response = "";
         if ($form->isValid()) {
 
+
+            // Check for editing username or email.
+            $checkUsername = $em->getRepository("UserBundle:User")->findBy(array("username"=>$form->get('username')->getViewData()));
+            $checkEmail = $em->getRepository("UserBundle:User")->findBy(array("username"=>$form->get('email')->getViewData()));
+            $noExist = 0;
+            foreach($checkUsername as $u){
+                if($u != $this->getUser()){$noExist++;}
+            }
+            foreach($checkEmail as $u){
+                if($u != $this->getUser()){$noExist++;}
+            }
+            if($noExist > 0){
+                return "Gebruikersnaam of email bestaat al";
+            }
+
+
+            // Set new values
             $user = $this->getUser();
             $user->setUsername($form->get('username')->getViewData());
             $user->setEmail($form->get('email')->getViewData());
@@ -129,13 +154,12 @@ class DefaultController extends Controller
             $user->setWoonplaats($form->get('woonplaats')->getViewData());
             $user->setTelefoon($form->get('telefoon')->getViewData());
 
-            $em = $this->getDoctrine()->getManager();
             $user->serialize();
 
             $em->persist($user);
             $em->flush();
 
-            $response = "Succesvol toegevoegd.";
+            $response = "Succesvol gewijzigd";
         }
         return $response;
     }
